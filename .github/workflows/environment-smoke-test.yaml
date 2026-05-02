@@ -1,0 +1,20 @@
+name: Environment Smoke Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        required: true
+        type: choice
+        options: [DEV, TEST, PROD]
+        default: DEV
+
+permissions:
+  contents: read
+
+jobs:
+  environment_smoke:
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/reusable-environment-smoke-test.yaml@v1.0.4
+    with:
+      target_environment: ${{ inputs.target_environment }}
+      caller_repository: ${{ github.repository }}
