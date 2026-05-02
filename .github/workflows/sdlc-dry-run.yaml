@@ -1,0 +1,20 @@
+name: SDLC Dry Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        required: true
+        type: choice
+        options: [all, dev, test, prod, negative]
+        default: all
+
+permissions:
+  contents: read
+
+jobs:
+  dry_run:
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/reusable-sdlc-dry-run.yaml@v1.0.2
+    with:
+      mode: ${{ inputs.mode }}
+      caller_repository: ${{ github.repository }}
