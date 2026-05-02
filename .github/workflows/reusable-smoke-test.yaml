@@ -1,0 +1,13 @@
+name: Reusable Workflow Smoke Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/reusable-smoke-test.yaml@v1.0.1
+    with:
+      caller_repository: ${{ github.repository }}
