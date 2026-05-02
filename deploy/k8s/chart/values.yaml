@@ -1,0 +1,35 @@
+replicaCount: 1
+environment: DEV
+
+image:
+  repository: harbor.bank.local/payment/payment-api
+  tag: latest
+  digest: ""
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  host: payment-api.dev.bank.local
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+readinessProbe:
+  path: /health
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+livenessProbe:
+  path: /health
+  initialDelaySeconds: 30
+  periodSeconds: 20
+

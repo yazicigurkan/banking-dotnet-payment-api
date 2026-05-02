@@ -1,0 +1,9 @@
+replicaCount: 2
+environment: TEST
+image:
+  repository: harbor.bank.local/payment/payment-api
+  tag: test-placeholder
+service:
+  port: 8080
+ingress:
+  host: payment-api.test.bank.local

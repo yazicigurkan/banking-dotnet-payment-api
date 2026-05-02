@@ -1,0 +1,50 @@
+name: Jira TEST Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      jira_issue_key:
+        required: true
+        type: string
+      release_version:
+        required: true
+        type: string
+      deployment_type:
+        required: true
+        type: choice
+        options: [iis, kubernetes]
+  repository_dispatch:
+    types: [jira-test-deploy]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test:
+    uses: bank-org/bank-devsecops-pipeline-platform/.github/workflows/dotnet-jira-test-release.yaml@v1.0.0
+    with:
+      jira_issue_key: ${{ github.event.inputs.jira_issue_key || github.event.client_payload.jira_issue_key }}
+      application_name: ${{ github.event.client_payload.application_name || 'payment-api' }}
+      repository_name: ${{ github.event.client_payload.repository_name || github.event.repository.name }}
+      branch_name: TEST
+      release_version: ${{ github.event.inputs.release_version || github.event.client_payload.release_version }}
+      deployment_type: ${{ github.event.inputs.deployment_type || github.event.client_payload.deployment_type }}
+      target_environment: TEST
+      dotnet_solution: Payment.Api.sln
+      project_path: src/Payment.Api/Payment.Api.csproj
+      test_project_path: tests/Payment.Api.Tests/Payment.Api.Tests.csproj
+      sonar_project_key: payment-api
+      graphnode_project_key: payment-api
+      nexus_repository: dotnet-releases
+      harbor_project: payment
+      image_name: payment-api
+      k8s_namespace: payment-test
+      helm_chart_path: deploy/k8s/chart
+      helm_values_file: deploy/k8s/values-test.yaml
+      iis_server_group: IIS_TEST_PAYMENT
+      iis_site_name: Payment.Api
+      iis_app_pool_name: Payment.Api
+      deploy_path: D:\Sites\Payment.Api
+      health_check_url: https://payment-api.test.bank.local/health
+    secrets: inherit

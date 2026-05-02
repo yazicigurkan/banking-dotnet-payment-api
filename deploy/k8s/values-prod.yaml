@@ -1,0 +1,9 @@
+replicaCount: 3
+environment: PROD
+image:
+  repository: harbor.bank.local/payment/payment-api
+  tag: prod-placeholder
+service:
+  port: 8080
+ingress:
+  host: payment-api.bank.local

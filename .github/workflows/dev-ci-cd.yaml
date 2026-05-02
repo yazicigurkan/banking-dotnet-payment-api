@@ -1,0 +1,35 @@
+name: DEV CI/CD
+
+on:
+  push:
+    branches: [DEV]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  dev:
+    uses: bank-org/bank-devsecops-pipeline-platform/.github/workflows/dotnet-dev-ci-cd.yaml@v1.0.0
+    with:
+      application_name: payment-api
+      dotnet_solution: Payment.Api.sln
+      project_path: src/Payment.Api/Payment.Api.csproj
+      test_project_path: tests/Payment.Api.Tests/Payment.Api.Tests.csproj
+      deployment_type: kubernetes
+      target_environment: DEV
+      sonar_project_key: payment-api
+      graphnode_project_key: payment-api
+      nexus_repository: dotnet-snapshots
+      harbor_project: payment
+      image_name: payment-api
+      k8s_namespace: payment-dev
+      helm_chart_path: deploy/k8s/chart
+      helm_values_file: deploy/k8s/values-dev.yaml
+      iis_server_group: IIS_DEV_PAYMENT
+      iis_site_name: Payment.Api
+      iis_app_pool_name: Payment.Api
+      deploy_path: D:\Sites\Payment.Api
+      health_check_url: https://payment-api.dev.bank.local/health
+      graphnode_fail_on_high: false
+    secrets: inherit
