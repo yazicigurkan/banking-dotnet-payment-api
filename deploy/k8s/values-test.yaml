@@ -9,4 +9,5 @@ service:
   port: 8080
   nodePort: 30081
 ingress:
+  enabled: false
   host: payment-api.test.bank.local
