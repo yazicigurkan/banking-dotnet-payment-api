@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   dev:
-    uses: bank-org/bank-devsecops-pipeline-platform/.github/workflows/dotnet-dev-ci-cd.yaml@v1.0.0
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-dev-ci-cd.yaml@v1.0.5
     with:
       application_name: payment-api
       dotnet_solution: Payment.Api.sln
@@ -20,7 +20,7 @@ jobs:
       target_environment: DEV
       sonar_project_key: payment-api
       graphnode_project_key: payment-api
-      nexus_repository: dotnet-snapshots
+      nexus_repository: dotnet-releases
       harbor_project: payment
       image_name: payment-api
       k8s_namespace: payment-dev
@@ -30,6 +30,6 @@ jobs:
       iis_site_name: Payment.Api
       iis_app_pool_name: Payment.Api
       deploy_path: D:\Sites\Payment.Api
-      health_check_url: https://payment-api.dev.bank.local/health
+      health_check_url: http://127.0.0.1:30080/health
       graphnode_fail_on_high: false
     secrets: inherit

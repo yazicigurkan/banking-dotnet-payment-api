@@ -4,6 +4,8 @@ image:
   repository: harbor.bank.local/payment/payment-api
   tag: dev-placeholder
 service:
+  type: NodePort
   port: 8080
+  nodePort: 30080
 ingress:
   host: payment-api.dev.bank.local
