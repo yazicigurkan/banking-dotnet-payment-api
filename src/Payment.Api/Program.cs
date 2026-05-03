@@ -4,7 +4,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
-
+# test
 app.MapHealthChecks("/health");
 app.MapGet("/api/payments/{id}", (string id) =>
 {
