@@ -17,13 +17,13 @@ on:
         options: [iis, kubernetes]
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
   actions: read
 
 jobs:
   prod:
-    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-jira-prod-release.yaml@v1.0.11
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-jira-prod-release.yaml@v1.0.12
     with:
       jira_issue_key: ${{ github.event.inputs.jira_issue_key || github.event.client_payload.jira_issue_key }}
       application_name: ${{ github.event.client_payload.application_name || 'payment-api' }}
@@ -33,6 +33,7 @@ jobs:
       deployment_type: ${{ github.event.inputs.deployment_type || github.event.client_payload.deployment_type }}
       target_environment: PROD
       nexus_repository: dotnet-releases
+      harbor_registry: 192.168.18.53
       harbor_project: payment
       image_name: payment-api
       k8s_namespace: payment-prod

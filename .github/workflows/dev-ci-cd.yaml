@@ -3,15 +3,18 @@ name: DEV CI/CD
 on:
   push:
     branches: [DEV]
+    paths-ignore:
+      - deploy/k8s/**
+      - deploy/argocd/**
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
   actions: read
 
 jobs:
   dev:
-    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-dev-ci-cd.yaml@v1.0.11
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-dev-ci-cd.yaml@v1.0.12
     with:
       application_name: payment-api
       dotnet_solution: Payment.Api.sln

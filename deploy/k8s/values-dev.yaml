@@ -1,8 +1,9 @@
 replicaCount: 1
 environment: DEV
 image:
-  repository: harbor.bank.local/payment/payment-api
-  tag: dev-placeholder
+  repository: 192.168.18.53/payment/payment-api
+  tag: 0.0.0-dev-DEV-2009760-10
+  digest: ""
 service:
   type: NodePort
   port: 8080

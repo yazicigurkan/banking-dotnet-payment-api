@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: payment-api-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:yazicigurkan/banking-dotnet-payment-api.git
+    targetRevision: PROD
+    path: deploy/k8s/chart
+    helm:
+      releaseName: payment-api
+      valueFiles:
+        - ../values-prod.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: payment-prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
