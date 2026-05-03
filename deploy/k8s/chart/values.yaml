@@ -12,7 +12,7 @@ service:
   port: 8080
 
 ingress:
-  enabled: true
+  enabled: false
   host: payment-api.dev.bank.local
 
 resources:
@@ -32,4 +32,3 @@ livenessProbe:
   path: /health
   initialDelaySeconds: 30
   periodSeconds: 20
-
