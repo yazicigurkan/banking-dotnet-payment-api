@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   dev:
-    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-dev-ci-cd.yaml@v1.0.10
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-dev-ci-cd.yaml@v1.0.11
     with:
       application_name: payment-api
       dotnet_solution: Payment.Api.sln
@@ -23,6 +23,7 @@ jobs:
       sonar_branch_analysis_enabled: false
       graphnode_project_key: payment-api
       nexus_repository: dotnet-releases
+      harbor_registry: 192.168.18.53
       harbor_project: payment
       image_name: payment-api
       k8s_namespace: payment-dev
