@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   test:
-    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-jira-test-release.yaml@v1.0.9
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-jira-test-release.yaml@v1.0.10
     with:
       jira_issue_key: ${{ github.event.inputs.jira_issue_key || github.event.client_payload.jira_issue_key }}
       application_name: ${{ github.event.client_payload.application_name || 'payment-api' }}
