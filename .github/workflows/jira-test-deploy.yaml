@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   test:
-    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-jira-test-release.yaml@v1.0.7
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-jira-test-release.yaml@v1.0.8
     with:
       jira_issue_key: ${{ github.event.inputs.jira_issue_key || github.event.client_payload.jira_issue_key }}
       application_name: ${{ github.event.client_payload.application_name || 'payment-api' }}
@@ -36,6 +36,7 @@ jobs:
       project_path: src/Payment.Api/Payment.Api.csproj
       test_project_path: tests/Payment.Api.Tests/Payment.Api.Tests.csproj
       sonar_project_key: payment-api
+      sonar_branch_analysis_enabled: false
       graphnode_project_key: payment-api
       nexus_repository: dotnet-releases
       harbor_project: payment
