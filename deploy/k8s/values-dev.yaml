@@ -2,7 +2,7 @@ replicaCount: 1
 environment: DEV
 image:
   repository: 192.168.18.53/payment/payment-api
-  tag: 0.0.0-dev-DEV-99dd357-12
+  tag: 0.0.0-dev-DEV-28f97ed-13
   digest: 
 service:
   type: NodePort
