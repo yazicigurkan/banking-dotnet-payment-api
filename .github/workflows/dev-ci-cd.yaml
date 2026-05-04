@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   dev:
-    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-dev-ci-cd.yaml@v1.0.18
+    uses: yazicigurkan/bank-devsecops-pipeline-platform/.github/workflows/dotnet-dev-ci-cd.yaml@v1.0.19
     with:
       application_name: payment-api
       dotnet_solution: Payment.Api.sln
