@@ -3,7 +3,7 @@ environment: DEV
 
 image:
   repository: harbor.bank.local/payment/payment-api
-  tag: latest
+  tag: required-by-environment-values
   digest: ""
   pullPolicy: IfNotPresent
 

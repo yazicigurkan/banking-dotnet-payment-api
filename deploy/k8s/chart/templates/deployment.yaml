@@ -22,7 +22,13 @@ spec:
     spec:
       containers:
         - name: api
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- $imageRepository := required "image.repository is required" .Values.image.repository }}
+          {{- $imageTag := required "image.tag is required" .Values.image.tag }}
+          {{- if .Values.image.digest }}
+          image: "{{ $imageRepository }}:{{ $imageTag }}@{{ .Values.image.digest }}"
+          {{- else }}
+          image: "{{ $imageRepository }}:{{ $imageTag }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port }}
@@ -43,4 +49,3 @@ spec:
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-
