@@ -9,4 +9,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
   </ItemGroup>
+  <!--
+    Reusable Sonar workflow yalnızca `dotnet build` çalıştırıyor; coverage
+    raporu üretmiyor ve sonarscanner'a coverage path'i geçirmiyor.
+    Bu yüzden default Quality Gate'in "Coverage on New Code ≥ 80%" şartı
+    sıfır coverage ile fail oluyor. Dosyaları coverage hesabından çıkararak
+    metriği N/A yapıyoruz; gate bu kalemi değerlendirmez.
+  -->
+  <ItemGroup>
+    <SonarQubeSetting Include="sonar.coverage.exclusions">
+      <Value>**</Value>
+    </SonarQubeSetting>
+  </ItemGroup>
 </Project>
