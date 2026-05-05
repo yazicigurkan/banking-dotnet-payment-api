@@ -8,6 +8,7 @@ using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -334,4 +335,4 @@ public record LoginRequest(
     [property: Required, StringLength(64, MinimumLength = 1)] string? Username,
     [property: Required, StringLength(128, MinimumLength = 8)] string? Password);
 
-public partial class Program;
+public partial class Program { }
