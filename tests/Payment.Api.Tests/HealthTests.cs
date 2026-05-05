@@ -14,8 +14,12 @@ using Xunit;
 namespace Payment.Api.Tests;
 
 // ─── Test Factory ───────────────────────────────────────────────
-// Uygulama açılırken Jwt:Key ve TestUser:* zorunlu olduğu için
-// factory'yi override edip in-memory configuration enjekte ediyoruz.
+// Program.cs minimal API; `builder.Configuration["Jwt:Key"]` çağrısı
+// CreateBuilder()'dan hemen sonra çalışır — bu noktada WebApplicationFactory'nin
+// ConfigureAppConfiguration callback'i HENÜZ devreye girmemiştir, dolayısıyla
+// in-memory config enjeksiyonu çok geç kalır. Çözüm: WebApplication.CreateBuilder
+// varsayılan olarak environment variable'ları okuduğu için config'i process env
+// üzerinden veriyoruz. Static ctor bir kez çalışır, tüm fixture instance'ları paylaşır.
 public sealed class TestApiFactory : WebApplicationFactory<Program>
 {
     public const string JwtKey = "test-secret-key-min-32-bytes-1234567890!!"; // 40 byte
@@ -24,36 +28,30 @@ public sealed class TestApiFactory : WebApplicationFactory<Program>
     public const string Username = "tester";
     public const string Password = "P@ssw0rd!Test";
 
-    public string PasswordSaltBase64 { get; }
-    public string PasswordHashBase64 { get; }
-
-    public TestApiFactory()
+    static TestApiFactory()
     {
-        var salt = RandomNumberGenerator.GetBytes(16);
+        // Deterministik salt — paralel test class'larında tutarlı hash üretmek için.
+        var salt = new byte[16]
+        {
+            0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6, 0x07, 0x18,
+            0x29, 0x3A, 0x4B, 0x5C, 0x6D, 0x7E, 0x8F, 0x90
+        };
         var hash = Rfc2898DeriveBytes.Pbkdf2(
             Password, salt, iterations: 100_000,
             HashAlgorithmName.SHA256, outputLength: 32);
 
-        PasswordSaltBase64 = Convert.ToBase64String(salt);
-        PasswordHashBase64 = Convert.ToBase64String(hash);
+        Environment.SetEnvironmentVariable("Jwt__Key", JwtKey);
+        Environment.SetEnvironmentVariable("Jwt__Issuer", JwtIssuer);
+        Environment.SetEnvironmentVariable("Jwt__Audience", JwtAudience);
+        Environment.SetEnvironmentVariable("TestUser__Username", Username);
+        Environment.SetEnvironmentVariable("TestUser__PasswordSalt", Convert.ToBase64String(salt));
+        Environment.SetEnvironmentVariable("TestUser__PasswordHash", Convert.ToBase64String(hash));
+        Environment.SetEnvironmentVariable("Cors__AllowedOrigins__0", "https://localhost");
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development"); // HTTPS metadata zorunluluğunu kapatır
-        builder.ConfigureAppConfiguration((_, config) =>
-        {
-            config.AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                ["Jwt:Key"] = JwtKey,
-                ["Jwt:Issuer"] = JwtIssuer,
-                ["Jwt:Audience"] = JwtAudience,
-                ["TestUser:Username"] = Username,
-                ["TestUser:PasswordSalt"] = PasswordSaltBase64,
-                ["TestUser:PasswordHash"] = PasswordHashBase64,
-                ["Cors:AllowedOrigins:0"] = "https://localhost"
-            });
-        });
     }
 
     /// <summary>Test'lerde kullanmak için manuel JWT üretici.</summary>
