@@ -6,4 +6,7 @@
     <AssemblyName>Payment.Api</AssemblyName>
     <RootNamespace>Payment.Api</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
+  </ItemGroup>
 </Project>
