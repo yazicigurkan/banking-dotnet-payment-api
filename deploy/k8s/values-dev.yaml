@@ -2,8 +2,8 @@ replicaCount: 1
 environment: DEV
 image:
   repository: 192.168.18.53/payment/payment-api
-  tag: payment-api-DEV-e3a4eb1-30
-  digest: sha256:4e77570713a59de793f7f41a93119c83f08cc69b880853b6934dcc396424d94f
+  tag: payment-api-DEV-7b03ce6-31
+  digest: sha256:1c4182584cf2e648da203404bcbc1362be9b34a348dced44d37bcf34decc5afc
 service:
   type: NodePort
   port: 8080
