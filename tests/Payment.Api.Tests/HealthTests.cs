@@ -11,7 +11,7 @@ public sealed class HealthTests : IClassFixture<WebApplicationFactory<Program>>
     {
         _factory = factory;
     }
-    // This test verifies that the /health endpoint is accessible and returns a successful status code.
+    // This test verifies that the /health endpoint is accessible
 
     [Fact]
     public async Task Health_endpoint_returns_success()
